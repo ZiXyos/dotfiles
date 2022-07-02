@@ -1,0 +1,12 @@
+[user]
+	name = ZiXyos
+	email = killian.moudery@gmail.com
+[init]
+	defaultBranch = master
+[pull]
+	rebase = true
+[core]
+	excludesFile = ~/.gitignore
+[alias]
+	upstream = !git push -u origin HEAD
+	lg = log --graph --pretty=tformat:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --decorate=full
