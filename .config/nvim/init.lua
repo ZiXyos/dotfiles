@@ -23,7 +23,17 @@ m.noremap("<S-L>", ":tabnext<CR>", "silent")
 m.noremap("<F2>", "<C-w>w", "silent")
 
 -- -- lazygit
-m.nnoremap("gg", ":LazyGit<CR>", "silent")
+m.nnoremap("<Leader>gg", ":LazyGit<CR>", "silent")
+
+-- BufferLine navigation
+m.nnoremap("<Leader>bp", ":bprevious<CR>", "silent")
+m.nnoremap("<Leader>bn", ":bnext<CR>", "silent")
+
+-- telescope
+m.nnoremap("<Leader>tl", ":Telescope<CR>", "silent")
+
+-- NvimTree Shortcut
+m.nnoremap("<S-B>", ":NvimTreeToggle<CR>", "silent")
 
 -- PACKER
 require("lsp_setup")
