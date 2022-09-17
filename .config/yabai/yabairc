@@ -2,8 +2,16 @@
 sudo yabai --load-sa
 yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
 
-# Activate the automatic snapping 
+
+# Activate the automatic snapping
 yabai -m config layout bsp
+
+# floating windows are always on top (default: off)
+yabai -m config window_topmost on
+
+# Mouse Focus
+yabai -m config mouse_follows_focus on
+yabai -m config focus_follows_mouse autoraise
 
 # Spacing around windows
 yabai -m config top_padding 20
@@ -12,5 +20,24 @@ yabai -m config left_padding 20
 yabai -m config right_padding 20
 yabai -m config window_gap 20
 
+# Border color
+yabai -m config window_border on
+yabai -m config window_opacity on
+yabai -m config window_shadow float
+yabai -m config window_border_width 4
+yabai -m config active_window_border_color   0xff8E83B8
+yabai -m config normal_window_border_color   0xff51425C
+yabai -m config insert_window_border_color   0xff8E83B8
+yabai -m config active_window_opacity        1.0
+yabai -m config normal_window_opacity        0.95
+yabai -m config split_ratio                  0.50
+yabai -m config auto_balance                 on
+yabai -m config mouse_modifier               fn
+
+#yabai -m config normal_window_border_color 0x00FFBF00
+#yabai -m config active_window_border_color 0xFFFFBF00
+
 # Ignore programs
 yabai -m rule --add app="^System Preferences$" manage=off
+yabai -m rule --add app="^Raycast$" manage=off
+yabai -m rule --add app="^Logi Options$" manage=off
