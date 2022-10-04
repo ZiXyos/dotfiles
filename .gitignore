@@ -1,2 +1,7 @@
-.DS_Store
-undodir
+dot_config/exercism
+dot_config/coc
+dot_config/chezmoi
+dot_config/iterm2
+dot_config/nvim/plugin
+dot_config/raycast/private_config.json
+dot_config/dot_DS_Store

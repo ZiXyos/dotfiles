@@ -1,0 +1,6 @@
+# pack-refs with: peeled fully-peeled sorted 
+8bad26bbd74cff8d8cf69217e11c222ad705f7a8 refs/remotes/origin/add-license-1
+269c0f0bd1c792cebc7821f299ce9250ed9bcd67 refs/remotes/origin/main
+edc940ac4b96ad68bec94294c0d8cc9e20200d5a refs/tags/v1.0.0
+9f48b5c37321a58e9f19e3c9d58a0d6ac11e4750 refs/tags/v1.0.1
+8fbd883a46f013a6fb62fc83694fde224f89d8f7 refs/tags/v1.1.0
