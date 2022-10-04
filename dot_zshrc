@@ -1,0 +1,68 @@
+## ~/.zshrc
+## Author:
+## ZiXyos (killian.moudery@gmail,com)
+## Description:
+## Simple zshrc configuration
+
+export ZSH="$HOME/.oh-my-zsh"
+
+ZSH_THEME="jovial"
+
+ENABLE_CORRECTION="false"
+
+plugins=(
+  zsh-history-enquirer
+
+  git
+  autojump
+  urltools
+  bgnotify
+  zsh-autosuggestions
+  zsh-syntax-highlighting
+  jovial
+)
+
+source $ZSH/oh-my-zsh.sh
+source ~/.bash_profile
+
+## PREFERENCIES
+export EDITOR=nvim
+
+## CUSTOM VARS 
+export DEV="$HOME/dev"
+export EIP="$DEV/buddies"
+export TEK4="$HOME/tek4"
+export NUMERICAL="$TEK4/inha/numerical"
+export FASTCART="$DEV/fast-cart"
+
+## -- VARS --
+export MANPATH="/usr/local/man:$MANPATH"
+
+export LANG=en_US.UTF-8
+
+export HOMEBREW_NO_AUTO_UPDATE=true
+export CPATH=/usr/local/include/
+export LIBRARY_PATH=/usr/local/opt/
+
+## -- GOVARS --
+export GOPATH=$HOME/go
+
+export GOBIN=$GOPATH/bin
+export PATH=$PATH:$GOBIN
+
+# pnpm
+export PNPM_HOME="/Users/ktchoumh/Library/pnpm"
+export PATH="$PNPM_HOME:$PATH"
+# pnpm end
+
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
+
+# bun completions
+[ -s "/Users/ktchoumh/.bun/_bun" ] && source "/Users/ktchoumh/.bun/_bun"
+
+# Bun
+export BUN_INSTALL="/Users/ktchoumh/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"

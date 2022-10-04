@@ -1,0 +1,83 @@
+-- INIT PLUGINS FIRST
+vim.g.mapleader = " "
+
+-- OPTIONS
+vim.opt.encoding = "UTF-8"
+vim.opt.number = true
+vim.opt.mouse = "a"
+vim.opt.autoread = true
+vim.opt.list = true
+vim.opt.listchars:append("eol:↴")
+vim.opt.signcolumn = "yes"
+vim.opt.wrap = false
+
+require("plugins")
+
+-- Auto compile PackerCompile
+vim.cmd([[
+  augroup packer_user_config
+    autocmd!
+    autocmd BufWritePost plugins.lua source <afile> | PackerCompile
+  augroup end
+]])
+local ok_m, m = pcall(require, "mapx")
+
+vim.g.mapleader = " "
+
+if ok_m then
+  m.noremap("<leader>w", ":w<CR>", "silent")
+
+  -- tab navigation
+  m.noremap("<S-H>", ":tabprev<CR>", "silent")
+  m.noremap("<S-L>", ":tabnext<CR>", "silent")
+
+  -- window navigation
+  m.noremap("<F2>", "<C-w>w", "silent")
+
+  -- lazygit
+  m.nnoremap("<Leader>gg", ":LazyGit<CR>", "silent")
+
+  -- BufferLine navigation
+  m.nnoremap("<Leader>bp", ":bprevious<CR>", "silent")
+  m.nnoremap("<Leader>bn", ":bnext<CR>", "silent")
+
+  -- telescope
+  m.nnoremap("<Leader>tl", ":Telescope<CR>", "silent")
+
+  -- NvimTree Shortcut
+  m.nnoremap("<S-B>", ":NvimTreeToggle<CR>", "silent")
+
+  m.nnoremap("<Leader>j", ":ToggleTerm<CR>", "silent")
+end
+
+-- PACKER
+require("lsp_setup")
+require("cmp_setup")
+require("telescope_setup")
+require("toggleterm_setup")
+require("treesitter_setup")
+require("lualine_setup")
+require("comment_setup")
+
+-- require("surround_setup")
+require("nullls_setup")
+require("indentblankline_setup")
+require("autopairs_setup")
+require("gitsigns_setup")
+require("trouble_setup")
+require("nvimtree_setup")
+require("devicons_setup")
+require('tabbar_setup')
+
+-- Startup Command
+vim.g.tokyonight_style = "night"
+vim.g.tokyonight_italic_functions = true
+vim.g.tokyonight_sidebars = { "qf", "vista_kind", "terminal", "packer" }
+
+-- Change the "hint" color to the "orange" color, and make the "error" color bright red
+vim.g.tokyonight_colors = { hint = "orange", error = "#ff0000" }
+
+-- Configure Base Neovim
+vim.wo.number = true
+-- Load the colorscheme
+vim.cmd("colorscheme tokyonight")
