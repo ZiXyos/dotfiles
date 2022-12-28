@@ -1,7 +1,7 @@
--- INIT PLUGINS FIRST
+--- INIT PLUGINS FIRST ---
 vim.g.mapleader = " "
 
--- OPTIONS
+---- OPTIONS ---
 vim.opt.encoding = "UTF-8"
 vim.opt.number = true
 vim.opt.mouse = "a"
@@ -13,63 +13,27 @@ vim.opt.wrap = false
 
 require("plugins")
 
--- Auto compile PackerCompile
-vim.cmd([[
-  augroup packer_user_config
-    autocmd!
-    autocmd BufWritePost plugins.lua source <afile> | PackerCompile
-  augroup end
-]])
-local ok_m, m = pcall(require, "mapx")
+require("zixyos.remap")
 
-vim.g.mapleader = " "
+--- PACKER --- 
+require("zixyos.lsp_setup")
+require("zixyos.treesitter_setup")
+require("zixyos.autopairs_setup")
+require("zixyos.telescope_setup")
+require("zixyos.treesitter_setup")
+require("zixyos.toggleterm_setup")
+require("zixyos.devicons_setup")
+require("zixyos.lualine_setup")
 
-if ok_m then
-  m.noremap("<leader>w", ":w<CR>", "silent")
+-- require("zixyos.nvimtree_setup")
 
-  -- tab navigation
-  m.noremap("<S-H>", ":tabprev<CR>", "silent")
-  m.noremap("<S-L>", ":tabnext<CR>", "silent")
+require("zixyos.cmp")
+require("zixyos.comment")
+require("zixyos.gitsigns")
+require("zixyos.indentblankline")
+require("zixyos.nulls")
 
-  -- window navigation
-  m.noremap("<F2>", "<C-w>w", "silent")
-
-  -- lazygit
-  m.nnoremap("<Leader>gg", ":LazyGit<CR>", "silent")
-
-  -- BufferLine navigation
-  m.nnoremap("<Leader>bp", ":bprevious<CR>", "silent")
-  m.nnoremap("<Leader>bn", ":bnext<CR>", "silent")
-
-  -- telescope
-  m.nnoremap("<Leader>tl", ":Telescope<CR>", "silent")
-
-  -- NvimTree Shortcut
-  m.nnoremap("<S-B>", ":NvimTreeToggle<CR>", "silent")
-
-  m.nnoremap("<Leader>j", ":ToggleTerm<CR>", "silent")
-end
-
--- PACKER
-require("lsp_setup")
-require("cmp_setup")
-require("telescope_setup")
-require("toggleterm_setup")
-require("treesitter_setup")
-require("lualine_setup")
-require("comment_setup")
-
--- require("surround_setup")
-require("nullls_setup")
-require("indentblankline_setup")
-require("autopairs_setup")
-require("gitsigns_setup")
-require("trouble_setup")
-require("nvimtree_setup")
-require("devicons_setup")
-require('tabbar_setup')
-
--- Startup Command
+--- Startup Command ---
 vim.g.tokyonight_style = "night"
 vim.g.tokyonight_italic_functions = true
 vim.g.tokyonight_sidebars = { "qf", "vista_kind", "terminal", "packer" }
