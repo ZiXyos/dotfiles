@@ -1,4 +1,3 @@
--- VIM OPTIONS
 vim.opt.encoding = "UTF-8"
 vim.opt.number = true
 vim.opt.mouse = "a"
@@ -16,7 +15,6 @@ vim.opt.autowrite = true
 vim.opt.expandtab = true -- Use spaces instead of tabs
 vim.opt.smartindent = true -- Insert indents automatically
 
--- PACKAGES MANAGER SETUP
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 local lazy_version = "v9.18.1"
 
@@ -27,7 +25,6 @@ if not vim.loop.fs_stat(lazypath) then
     "--filter=blob:none",
     "https://github.com/folke/lazy.nvim.git",
     "--branch=" .. lazy_version, -- latest stable release
-    lazypath,
   })
 end
 vim.opt.rtp:prepend(lazypath)
@@ -35,8 +32,9 @@ vim.opt.rtp:prepend(lazypath)
 -- LEADER KEY FIRST
 vim.g.mapleader = " "
 
--- PLUGINS
-require("config.lazy")
+require("lazy").setup("plugins")
+
+vim.keymap.set({ "i", "n" }, "<esc>", "<cmd>noh<cr><esc>", { desc = "Escape and clear hlsearch", silent = true })
 
 -- WINDOWS MANAGEMENT
 -- Move to window
@@ -65,6 +63,6 @@ vim.opt.winbar = ""
 -- END WINBAR MANAGEMENT
 
 -- MOVE CODE
-vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "Move line up", silent = true })
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move line down", silent = true })
+vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "Move line up", silent = true })
 -- END MOVE CODE

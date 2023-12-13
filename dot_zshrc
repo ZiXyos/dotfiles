@@ -23,17 +23,16 @@ plugins=(
 )
 
 source $ZSH/oh-my-zsh.sh
-source ~/.bash_profile
+## source ~/.bash_profile
 
 ## PREFERENCIES
 export EDITOR=nvim
 
 ## CUSTOM VARS 
 export DEV="$HOME/dev"
-export EIP="$DEV/buddies"
-export TEK4="$HOME/tek4"
-export NUMERICAL="$TEK4/inha/numerical"
-export FASTCART="$DEV/fast-cart"
+export EIP="$DEV/eip/"
+export INDIE="$DEV/indie-dev"
+export CONFIG="$HOME/.config"
 
 ## -- VARS --
 export MANPATH="/usr/local/man:$MANPATH"
