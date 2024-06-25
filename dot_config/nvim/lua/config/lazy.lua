@@ -10,51 +10,40 @@ if not vim.loop.fs_stat(lazypath) then
   })
 end
 
-vim.opt.rtp:prepend(vim.env.LAZY or lazypath)
+vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
   spec = {
-    {
-      "LazyVim/LazyVim",
-      import = "lazyvim.plugins",
-      opts = {
-        colorscheme = "catppuccin",
-        news = {
-          lazyvim = true,
-          neovim = true,
-        },
+    "LazyVim/LazyVim",
+    import = "lazyvim.plugins",
+    opts = {
+      news = {
+        lazyvim = true,
+        neovim = true,
       },
-    },
-    { "fladson/vim-kitty" },
-    {
-      "catppuccin/nvim",
-      name = "catppuccin",
-      priority = 1000,
-      flavour = "mocha",
-      transparent_background = true,
-    },
-    { "fladson/vim-kitty" },
-    { import = "lazyvim.plugins.extras.linting.eslint" },
-    { import = "lazyvim.plugins.extras.formatting.prettier" },
-    { import = "lazyvim.plugins.extras.lang.typescript" },
-    { import = "lazyvim.plugins.extras.lang.json" },
+     },
     { import = "plugins" },
   },
   defaults = {
     lazy = false,
     version = false,
   },
-  checker = { enabled = true },
+  checker = { enabled = true, notify = false },
+   change_detection = {
+    notify = false,
+  },
   performance = {
     cache = { enabled = true },
     rtp = {
       disabled_plugins = {
         "gzip",
         "tarPlugin",
+        "netrwPlugin",
+        "rplugin",
         "tohtml",
         "tutor",
         "zipPlugin",
-      },
+     },
     },
   },
   ui = {
@@ -64,5 +53,4 @@ require("lazy").setup({
       end,
     },
   },
-  debug = false,
 })

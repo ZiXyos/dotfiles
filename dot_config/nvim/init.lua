@@ -7,4 +7,7 @@ _G.dd = function(...)
 end
 vim.print = _G.dd
 
+require("config.options")
 require("config.lazy")
+require("config.keymaps")
+require("config.autocmd")
