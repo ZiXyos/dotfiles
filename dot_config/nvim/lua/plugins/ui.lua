@@ -1,108 +1,138 @@
 return {
-  -- messages, cmdline and the popupmenu
-  {
-    "folke/noice.nvim",
-    opts = function(_, opts)
-      table.insert(opts.routes, {
-        filter = {
-          event = "notify",
-          find = "No information available",
-        },
-        opts = { skip = true },
-      })
-      local focused = true
-      vim.api.nvim_create_autocmd("FocusGained", {
-        callback = function()
-          focused = true
-        end,
-      })
-      vim.api.nvim_create_autocmd("FocusLost", {
-        callback = function()
-          focused = false
-        end,
-      })
-      table.insert(opts.routes, 1, {
-        filter = {
-          cond = function()
-            return not focused
-          end,
-        },
-        view = "notify_send",
-        opts = { stop = false },
-      })
-
-      opts.commands = {
-        all = {
-          -- options for the message history that you get with `:Noice`
-          view = "split",
-          opts = { enter = true, format = "details" },
-          filter = {},
-        },
-      }
-
-      vim.api.nvim_create_autocmd("FileType", {
-        pattern = "markdown",
-        callback = function(event)
-          vim.schedule(function()
-            require("noice.text.markdown").keys(event.buf)
-          end)
-        end,
-      })
-
-      opts.presets.lsp_doc_border = true
-    end,
-  },
-
-  {
-    "rcarriga/nvim-notify",
-    opts = {
-      timeout = 5000,
-    },
-  },
-
-  -- animations
-  {
-    "echasnovski/mini.animate",
-    event = "VeryLazy",
-    opts = function(_, opts)
-      opts.scroll = {
-        enable = false,
-      }
-    end,
-  },
-
-  -- buffer line
-  {
-    "akinsho/bufferline.nvim",
-    event = "VeryLazy",
-    keys = {
-      { "<Tab>", "<Cmd>BufferLineCycleNext<CR>", desc = "Next tab" },
-      { "<S-Tab>", "<Cmd>BufferLineCyclePrev<CR>", desc = "Prev tab" },
-    },
-    opts = {
-      options = {
-        mode = "tabs",
-        -- separator_style = "slant",
-        show_buffer_close_icons = false,
-        show_close_icon = false,
-      },
-    },
-  },
-
-  -- statusline
   {
     "nvim-lualine/lualine.nvim",
     event = "VeryLazy",
-    opts = {
-      options = {
-        -- globalstatus = false,
-        theme = "solarized_dark",
-      },
-    },
+    lazy = true,
+    config = function()
+      local lualine = require("lualine")
+
+      local lint_progress = function()
+        local linters = require("lint").get_running()
+        if #linters == 0 then
+          return "󰦕"
+        end
+        return "󱉶 " .. table.concat(linters, ", ")
+      end
+
+      lualine.setup({
+        options = {
+          icons_enabled = true,
+          component_serparators = '',
+          section_separators = { left = '', right = '' }
+        },
+        sections = {
+          lualine_a = { { 'mode', separator = { left = '' }, right_padding = 2 } },
+          lualine_b = { 'filename', 'branch', 'diff', 'diagnostics' },
+          lualine_c = {},
+          lualine_x = { lint_progress },
+          lualine_y = { "fileformat", "filetype" },
+          lualine_z = {
+            { 'location', separator = { right = '' }, left_padding = 2 },
+          },
+        },
+        inactive_sections = {
+          lualine_a = { 'filename' },
+          lualine_b = {},
+          lualine_c = {},
+          lualine_x = {},
+          lualine_y = {},
+          lualine_z = { 'location' },
+        },
+        tabline = {},
+        extensions = {},
+      })
+    end,
+  },
+  
+  {
+    'nvimdev/dashboard-nvim',
+    lazy = false,
+    event = 'VimEnter',
+    config = function()
+      require('dashboard').setup {
+        -- config
+        config = {
+          header = {
+            [[                                                                       ]],
+            [[                                                                       ]],
+            [[                                                                       ]],
+            [[                                                                       ]],
+            [[                                                                     ]],
+            [[       ████ ██████           █████      ██                     ]],
+            [[      ███████████             █████                             ]],
+            [[      █████████ ███████████████████ ███   ███████████   ]],
+            [[     █████████  ███    █████████████ █████ ██████████████   ]],
+            [[    █████████ ██████████ █████████ █████ █████ ████ █████   ]],
+            [[  ███████████ ███    ███ █████████ █████ █████ ████ █████  ]],
+            [[ ██████  █████████████████████ ████ █████ █████ ████ ██████ ]],
+            [[                                                                       ]],
+            [[                                                                       ]],
+            [[                                                                       ]],
+          },
+          project = {
+            enable = true,
+            limit = 4,
+            icon = "  ",
+            label = "Recent projects:",
+            --          action = "Neotree toggle position=float dir=",
+          },
+        }
+      }
+    end,
+    dependencies = { { 'nvim-tree/nvim-web-devicons' } }
   },
 
-  -- filename
   {
+    "folke/noice.nvim",
+    event = "VeryLazy",
+    opts = {
+      lsp = {
+        -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
+        override = {
+          ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+          ["vim.lsp.util.stylize_markdown"] = true,
+        },
+      },                                          -- add any options here
+    },
+    dependencies = {
+      "MunifTanjim/nui.nvim",
+      --   `nvim-notify` is only needed, if you want to use the notification view.
+      --   If not available, we use `mini` as the fallback
+      {
+        "rcarriga/nvim-notify",
+        keys = {
+          {
+            "<leader>un",
+            function()
+              require("notify").dismiss({ silent = true, pending = true })
+            end,
+            desc = "Dismiss All Notifications",
+          },
+        },
+        opts = {
+          background_color = "#00000"
+        }
+      }
+    }
+  },
+
+  {
+    "stevearc/dressing.nvim",
+    lazy = false,
+  },
+
+  {
+    "echasnovski/mini.cursorword",
+    lazy = false,
+    version = "*",
+    config = true,
+  },
+
+  {
+    "akinsho/bufferline.nvim",
+    event = "VeryLazy",
+  },
+   {
     "b0o/incline.nvim",
     dependencies = { "craftzdog/solarized-osaka.nvim" },
     event = "BufReadPre",
@@ -130,43 +160,6 @@ return {
           return { { icon, guifg = color }, { " " }, { filename } }
         end,
       })
-    end,
-  },
-
-  {
-    "folke/zen-mode.nvim",
-    cmd = "ZenMode",
-    opts = {
-      plugins = {
-        gitsigns = true,
-        tmux = true,
-        kitty = { enabled = false, font = "+2" },
-      },
-    },
-    keys = { { "<leader>z", "<cmd>ZenMode<cr>", desc = "Zen Mode" } },
-  },
-
-  {
-    "nvimdev/dashboard-nvim",
-    event = "VimEnter",
-    opts = function(_, opts)
-      local logo =
-        [[                       _ ‘             ',:'/¯/`:,             __        '        _  '                                 _   ‘              ,.-:^*:*:^:~,'                         __  '        
-     /:¯:'`:*:^:*:´':¯::/'`;‘         /:/_/::::/';'      .:'´:::::/`:·.          /.;/';°         .·:¯:`/';            /::/'; ‘          ,:´:::::::::::::::/_‚                 ,·:'´/::::/'`;·.,    
-    /:: :: : : : : : :::/::'/         /:'     '`:/::;‘   '/::::::::/:::::/`:,     /::/:`'; °      /:::::/:::\          /::/: ';          /::;:-·^*'*'^~-;:/::/`;   '        .:´::::/::::/:::::::`;  
-  ,´¯ '` * ^ * ´' ¯   '`;/    ‘      ;         ';:';‘  /· '´ ¯¯ `'~·./:::::`;:´¯'`:;:/'       /·´¯'`·;::::\      ,·´¯'`;::/         /:´    ,. –.,_,.'´::/:::';' '       /:;:· '´ ¯¯'`^·-;::::/' ‘
-  '`,                  ,·'   '         |         'i::i   '`·.             `·:;:'/      ,'/' '  ‚   ;         \:::/`:, .'      ';/'       ,/    ,:´';         ;'´¯`,:::'i'       /·´           _   '`;/‘   
-     '`*^*'´;       .´         ‘      ';        ;'::i       `·.            '`'      ,·' '  '  ‚   ';          \/::::,'    '   /      ' ,'     ';:::`,       ,:     ';::i‘      'i            ;::::'`;*     
-          .´     .'      _   ' ‘      'i        'i::i'          ';              .,·'´   °         \          `'·:,:'´      /'        ;      ';:::/:`::^*:´;      i::';'‘      `;           '`;:::::'`:,  
-       .´      ,'´~:~/:::/`:,        ;       'i::;'       ,·´               i:';                '`,                  ,'´'         i       `;/::::::::,·´      ';:/'‘         `·,           '`·;:::::';
-     .´      ,'´::::::/:::/:::'i‘       ';       i:/'     ,·´      ,           ';::'`:., °            `,             ,'´:'*:^;      ';         '` *^*'´         .'/‘         ,~:-'`·,           `:;::/'
-   ,'        '*^~·~*'´¯'`·;:/         ';     ;/ °    ,'      ,':´';           ';::::::'`:*;'         `;         ,/::::::::/'       '\                         /          /:::::::::';           ';/  
-  /                        ,'/           ';   / °      i      ';::/ '`·,         '`·:;:::::/         ,·'         '¯ '`*^;:/‘          `·,                ,-·´ '         ,:~·- . -·'´          ,'´    
- ';                      ,.´              `'´       °  ';      ';/     '`·.,          '`*;/         ';                 ,'/'               '`*~·––·~^'´  '             '`·,               , ·'´      
-   '`*^~–––––-·~^'´                  ‘            '`~-·'´            `*^·–·^*'´             '`*^~·–-·~^*'´‘                       '                              '`*^·–·^*'´'           ‘]]
-
-      logo = string.rep("\n", 8) .. logo .. "\n\n"
-      opts.config.header = vim.split(logo, "\n")
     end,
   },
 }

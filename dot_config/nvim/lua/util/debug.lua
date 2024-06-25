@@ -1,5 +1,3 @@
--- selene: allow(global_usage)
-
 local M = {}
 
 function M.get_loc()
@@ -41,6 +39,7 @@ function M._dump(value, opts)
     end,
   })
 end
+
 
 function M.dump(...)
   local value = { ... }

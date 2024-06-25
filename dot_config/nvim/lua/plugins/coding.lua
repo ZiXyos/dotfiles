@@ -1,27 +1,18 @@
 return {
   {
-    "danymat/neogen",
-    keys = {
-      {
-        "<leader>cc",
-        function()
-          require("neogen").generate({})
-        end,
-        desc = "Neogen Comment",
-      },
-    },
-    opts = { snippet_engine = "luasnip" },
+    "nvimtools/none-ls.nvim",
+    config = function()
+      local null_ls = require("null-ls")
+      null_ls.setup({
+        sources = {
+          null_ls.builtins.formatting.stylua,
+          null_ls.builtins.formatting.prettier,
+          null_ls.builtins.completion.spell,
+        },
+      }) 
+    end,
   },
-
-  -- Incremental rename
-  {
-    "smjonas/inc-rename.nvim",
-    cmd = "IncRename",
-    config = true,
-  },
-
-  -- Refactoring tool
-  {
+    {
     "ThePrimeagen/refactoring.nvim",
     keys = {
       {
@@ -90,19 +81,23 @@ return {
     "nvim-cmp",
     dependencies = { "hrsh7th/cmp-emoji" },
     opts = function(_, opts)
-      table.insert(opts.sources, { name = "emoji" })
+      -- table.insert(opts.sources, { name = "emoji" })
     end,
   },
   {
     "akinsho/bufferline.nvim",
     version = "*",
-    dependencies = "nvim-tree/nvim-web-devicons",
+    dependencies = { 
+      "nvim-tree/nvim-web-devicons",
+      { 'echasnovski/mini.nvim', version = '*' },
+    },
     event = "VeryLazy",
     keys = {
       { "<leader>bp", "<Cmd>BufferLineTogglePin<CR>", desc = "Toggle pin" },
       { "<leader>bP", "<Cmd>BufferLineGroupClose ungrouped<CR>", desc = "Delete non-pinned buffers" },
       { "<leader>bo", "<Cmd>BufferLineCloseOthers<CR>", desc = "Delete other buffers" },
       { "<leader>br", "<Cmd>BufferLineCloseRight<CR>", desc = "Delete buffers to the right" },
+      {"<leader>bd", "<cmd>BufferlineClose<cr>", desc = "Delete buffer"},
       { "<leader>bl", "<Cmd>BufferLineCloseLeft<CR>", desc = "Delete buffers to the left" },
       { "<S-h>", "<cmd>BufferLineCyclePrev<cr>", desc = "Prev buffer" },
       { "<S-l>", "<cmd>BufferLineCycleNext<cr>", desc = "Next buffer" },
@@ -154,4 +149,54 @@ return {
       use_diagnostic_signs = true,
     },
   },
+  {
+     'echasnovski/mini.align',
+    version = '*',
+    config = true,
+  },
+  {
+    "echasnovski/mini.comment",
+    version = "*",
+    dependencies = {
+      {
+        "JoosepAlviste/nvim-ts-context-commentstring",
+        commit = "1277b4a1f451b0f18c0790e1a7f12e1e5fdebfee",
+      },
+    },
+    config = function()
+      local comment = require("mini.comment")
+      local commentstring = require("ts_context_commentstring")
+
+      comment.setup({
+        options = {
+          custom_commentstring = function()
+            return commentstring.calculate_commentstring() or vim.bo.commentstring
+          end,
+        },
+      })
+    end,
+  },
+  {
+    "echasnovski/mini.cursorword",
+    version = "*",
+    config = true,
+  },
+  {
+    "echasnovski/mini.surround",
+    version = "*",
+    config = true,
+  }, 
+  {
+    "jiangmiao/auto-pairs"
+  },
+  {
+    "YannickFricke/codestats.nvim",
+    main = "codestats-nvim",
+    lazy = false,
+    config = function()
+      require("codestats-nvim").setup()
+    end,
+    requires = { { "nvim-lua/plenary.nvim" } },
+  },
+    { "andweeb/presence.nvim" },
 }

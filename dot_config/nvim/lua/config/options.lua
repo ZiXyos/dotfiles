@@ -4,6 +4,7 @@ vim.scriptencoding = "utf-8"
 vim.opt.encoding = "utf-8"
 vim.opt.fileencoding = "utf-8"
 vim.opt.number = true
+vim.opt.cmdheight = 1
 vim.opt.mouse = "a"
 vim.opt.autoread = true
 vim.opt.list = true
@@ -20,11 +21,11 @@ vim.opt.expandtab = true -- Use spaces instead of tabs
 vim.opt.title = true
 vim.opt.autoindent = true
 vim.opt.smartindent = true -- Insert indents automatically
+vim.opt.winbar = ""
 
 vim.opt.backspace = { "start", "eol", "indent" }
 vim.opt.path:append({ "**" }) -- Finding files - Search down into subfolders
 vim.opt.wildignore:append({ "*/node_modules/*" })
-
 vim.opt.backupskip = { "/tmp/*", "/private/tmp/*" }
 
 vim.opt.smarttab = true
