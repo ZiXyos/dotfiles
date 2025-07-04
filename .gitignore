@@ -11,3 +11,6 @@ dot_config/kitty/kitty-icon/whiskers/dot_git
 dot_config/kitty/kitty-icon/dot_DS_Store
 dot_config/nvim/.idea
 dot_config/nvim/dot_env
+dot_config/zed/conversations
+dot_config/zed/prompts/prompts-library-db.0.mdb
+dot_config/zed/themes

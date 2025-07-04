@@ -1,0 +1,38 @@
+// Zed keymap
+//
+// For information on binding keys, see the Zed
+// documentation: https://zed.dev/docs/key-bindings
+//
+// To see the default key bindings run `zed: open default keymap`
+// from the command palette.
+[
+  {
+    "context": "Workspace && vim_mode == normal",
+    "bindings": {
+      "space g d": "editor::GoToDefinition",
+      "space q q": "workspace::CloseAllDocks",
+      "crtl w l": "workspace::ActivatePaneLeft",
+      "crtl w r": "workspace::ActivatePaneRight",
+      "crtl w u": "workspace::ActivatePaneUp",
+      "crtl w d": "workspace::ActivatePaneDown"
+    }
+  },
+  {
+    "context": "Editor && vim_mode == normal",
+    "bindings": {
+      // "space f s": "file_finder::Toggle",
+      "space v s": "pane::SplitVertical",
+      "space h s": "pane::SplitHorizontal",
+      "space ] d": "editor::GoToDiagnostic",
+      "space [ d": "editor::GoToPreviousDiagnostic",
+      "space n f": "project_panel::NewFile",
+      "space n d": "project_panel::NewDirectory"
+    }
+  },
+  {
+    "bindings": {
+      "space f s": "file_finder::Toggle",
+      "space f b": "workspace::ToggleRightDock"
+    }
+  }
+]
