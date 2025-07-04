@@ -4,5 +4,6 @@
         "dd",
         "cmp",
         "types"
-    ]
+    ],
+    "globals": ["vim"]
 }
