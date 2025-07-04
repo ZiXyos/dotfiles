@@ -32,7 +32,10 @@ export EDITOR=nvim
 export DEV="$HOME/dev"
 export EIP="$DEV/eip/"
 export INDIE="$DEV/indie-dev"
+export CLOUD="$DEV/locloud/"
+export SUPA="$CLOUD/supabase/"
 export CONFIG="$HOME/.config"
+export UBER="$HOME/Library/Application Support/Übersicht"
 
 ## -- VARS --
 export MANPATH="/usr/local/man:$MANPATH"
@@ -51,7 +54,10 @@ export PATH=$PATH:$GOBIN
 
 # pnpm
 export PNPM_HOME="/Users/ktchoumh/Library/pnpm"
-export PATH="$PNPM_HOME:$PATH"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
 # pnpm end
 
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
@@ -65,3 +71,17 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 # Bun
 export BUN_INSTALL="/Users/ktchoumh/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+
+. "$HOME/.cargo/env"
+
+if [ -f "/Users/ktchoumh/.config/nvim/.env" ]; then
+    export $(grep -v '^#' "/Users/ktchoumh/.config/nvim/.env" | xargs)
+fi
+alias kali-vol='docker run -it -v kali-volume:/workspace mykali-docker'
+alias kali-local='docker run -it -v /:/workspace mykali-docker'
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+export $(grep -v '^#' ~/.config/code-stats/.env | xargs)
