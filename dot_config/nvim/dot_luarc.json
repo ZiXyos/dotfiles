@@ -1,0 +1,9 @@
+{
+    "diagnostics.globals": [
+        "vim",
+        "dd",
+        "cmp",
+        "types"
+    ],
+    "globals": ["vim"]
+}

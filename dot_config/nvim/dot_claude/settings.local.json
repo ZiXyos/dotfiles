@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//Users/killian/.config/nvim/$CONFIG/**)",
+      "Read(//Users/killian/.config/ghostty/**)",
+      "Bash(gh api:*)",
+      "Bash(grep -rn 'terminal\\\\|\"`\"' /Users/killian/.config/nvim/lua/ --include=\"*.lua\")"
+    ]
+  }
+}
