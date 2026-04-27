@@ -1,0 +1,20 @@
+-- Calamity palette — importable by any plugin config
+return {
+  bg         = "#2f2833",
+  bg_dark    = "#261f29",
+  bg_float   = "#3a3040",
+  bg_hl      = "#3d3545",
+  bg_visual  = "#7e6c88",
+  fg         = "#d5ced9",
+  fg_dim     = "#a098a8",
+  comment    = "#7e6c88",
+  red        = "#fc644d",
+  green      = "#a5f69c",
+  yellow     = "#e9d7a5",
+  blue       = "#3b79c7",
+  magenta    = "#f92672",
+  cyan       = "#74d3de",
+  white      = "#ffffff",
+  orange     = "#ffb347",
+  none       = "NONE",
+}
