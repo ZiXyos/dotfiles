@@ -1,19 +1,75 @@
 return {
   {
+    "folke/ts-comments.nvim",
+    opts = {
+      langs = {
+        dts = "// %s",
+      },
+    },
+  },
+  {
+    "pwntester/octo.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "folke/snacks.nvim",
+      "nvim-tree/nvim-web-devicons",
+    },
+    opts = {
+      use_local_fs = true,
+      picker = "snacks",
+    },
+  },
+  { "sindrets/diffview.nvim", opts = {}, cmd = { "DiffviewOpen" } },
+  {
     "nvimtools/none-ls.nvim",
-    config = function()
+    opts = function(_, opts)
       local null_ls = require("null-ls")
-      null_ls.setup({
-        sources = {
-          null_ls.builtins.formatting.stylua,
-          null_ls.builtins.formatting.prettier,
-          null_ls.builtins.completion.spell,
-        },
-      }) 
+      opts.sources = vim.list_extend(opts.sources or {}, {
+        -- stylua is already added by the lazyvim none-ls extra
+        null_ls.builtins.formatting.prettier,
+        null_ls.builtins.completion.spell,
+      })
     end,
   },
   {
-    "echasnovski/mini.bracketed",
+    "nvim-mini/mini.align",
+    opts = {},
+    keys = {
+      { "ga", mode = { "n", "v" } },
+      { "gA", mode = { "n", "v" } },
+    },
+  },
+  {
+    "smjonas/inc-rename.nvim",
+    cmd = "IncRename",
+    config = true,
+  },
+  {
+    "Wansmer/treesj",
+    keys = {
+      -- TODO: export keys to keymap.config.
+      { "J", "<cmd>TSJToggle<cr>", desc = "Join Toggle" },
+    },
+    opts = { use_default_keymaps = false, max_join_length = 150 },
+  },
+  { "nvim-mini/mini.test", cond = vim.fn.isdirectory("tests") == 1 },
+  {
+    "folke/lazydev.nvim",
+    opts = function(_, opts)
+      local v = vim.version()
+      opts.debug = true
+      opts.runtime = v and v.prerelease and "~/projects/neovim/runtime" or nil
+      opts.library = opts.library or {}
+      vim.list_extend(opts.library, {
+        -- { path = "wezterm-types", mods = { "wezterm" } },
+        { path = "${3rd}/luassert/library", words = { "assert" } },
+        { path = "${3rd}/busted/library", words = { "describe" } },
+      })
+    end,
+  },
+  { "markdown-preview.nvim", enabled = false },
+  {
+    "nvim-mini/mini.bracketed",
     event = "BufReadPost",
     config = function()
       local bracketed = require("mini.bracketed")
@@ -26,9 +82,10 @@ return {
       })
     end,
   },
-   {
+  {
     "monaqa/dial.nvim",
     -- stylua: ignore
+    -- TODO: Export command to command utilities.
     keys = {
       { "<C-a>", function() return require("dial.map").inc_normal() end, expr = true, desc = "Increment" },
       { "<C-x>", function() return require("dial.map").dec_normal() end, expr = true, desc = "Decrement" },
@@ -49,74 +106,12 @@ return {
   },
   {
     "simrat39/symbols-outline.nvim",
+    -- TODO: export keys to keymap.config.
     keys = { { "<leader>cs", "<cmd>SymbolsOutline<cr>", desc = "Symbols Outline" } },
     cmd = "SymbolsOutline",
     opts = {
       position = "right",
     },
-  },
-
-  {
-    "nvim-cmp",
-    dependencies = { "hrsh7th/cmp-emoji" },
-    opts = function(_, opts)
-      -- table.insert(opts.sources, { name = "emoji" })
-    end,
-  },
-  {
-    "akinsho/bufferline.nvim",
-    version = "*",
-    dependencies = { 
-      "nvim-tree/nvim-web-devicons",
-      { 'echasnovski/mini.nvim', version = '*' },
-    },
-    event = "VeryLazy",
-    keys = {
-      { "<leader>bp", "<Cmd>BufferLineTogglePin<CR>", desc = "Toggle pin" },
-      { "<leader>bP", "<Cmd>BufferLineGroupClose ungrouped<CR>", desc = "Delete non-pinned buffers" },
-      { "<leader>bo", "<Cmd>BufferLineCloseOthers<CR>", desc = "Delete other buffers" },
-      { "<leader>br", "<Cmd>BufferLineCloseRight<CR>", desc = "Delete buffers to the right" },
-      {"<leader>bd", "<cmd>BufferlineClose<cr>", desc = "Delete buffer"},
-      { "<leader>bl", "<Cmd>BufferLineCloseLeft<CR>", desc = "Delete buffers to the left" },
-      { "<S-h>", "<cmd>BufferLineCyclePrev<cr>", desc = "Prev buffer" },
-      { "<S-l>", "<cmd>BufferLineCycleNext<cr>", desc = "Next buffer" },
-      { "[b", "<cmd>BufferLineCyclePrev<cr>", desc = "Prev buffer" },
-      { "]b", "<cmd>BufferLineCycleNext<cr>", desc = "Next buffer" },
-    },
-    opts = {
-      options = {
-        close_command = function(n)
-          require("mini.bufremove").delete(n, false)
-        end,
-        diagnostics = "nvim_lsp",
-        always_show_bufferline = false,
-        diagnostics_indicator = function(_, _, diag)
-          local icons = require("lazyvim.config").icons.diagnostics
-          local ret = (diag.error and icons.Error .. diag.error .. " " or "")
-            .. (diag.warning and icons.Warn .. diag.warning or "")
-          return vim.trim(ret)
-        end,
-        offsets = {
-          {
-            filetype = "neo-tree",
-            text = "Neo-tree",
-            highlight = "Directory",
-            text_align = "left",
-          },
-        },
-      },
-    },
-    config = function(_, opts)
-      require("bufferline").setup(opts)
-      -- Fix bufferline when restoring a session
-      vim.api.nvim_create_autocmd("BufAdd", {
-        callback = function()
-          vim.schedule(function()
-            pcall(nvim_bufferline)
-          end)
-        end,
-      })
-    end,
   },
   {
     "folke/trouble.nvim",
@@ -129,52 +124,13 @@ return {
     },
   },
   {
-     'echasnovski/mini.align',
-    version = '*',
-    config = true,
-  },
-  {
-    "echasnovski/mini.comment",
-    version = "*",
-    dependencies = {
-      {
-        "JoosepAlviste/nvim-ts-context-commentstring",
-        commit = "1277b4a1f451b0f18c0790e1a7f12e1e5fdebfee",
-      },
-    },
+    "YannickFricke/codestats.nvim",
+    lazy = false,
+    dependencies = { "nvim-lua/plenary.nvim" },
     config = function()
-      local comment = require("mini.comment")
-      local commentstring = require("ts_context_commentstring")
-
-      comment.setup({
-        options = {
-          custom_commentstring = function()
-            return commentstring.calculate_commentstring() or vim.bo.commentstring
-          end,
-        },
+      require("codestats-nvim").setup({
+        token = vim.env.CODE_STATS_API_TOKEN,
       })
     end,
   },
-  {
-    "echasnovski/mini.cursorword",
-    version = "*",
-    config = true,
-  },
-  {
-    "echasnovski/mini.surround",
-    version = "*",
-    config = true,
-  }, 
-  {
-    "jiangmiao/auto-pairs"
-  },
-  {
-    "YannickFricke/codestats.nvim",
-    lazy = false,
-    config = function()
-      require("codestats-nvim").setup()
-    end,
-    requires = { { "nvim-lua/plenary.nvim" } },
-  },
-    { "andweeb/presence.nvim" },
 }

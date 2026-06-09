@@ -1,4 +1,4 @@
----@module 'lazy'
+--@module 'lazy'
 
 return {
   {
@@ -84,6 +84,7 @@ return {
         chunk = { enabled = true },
       },
       dashboard = vim.fn.has("win32") == 1 and {} or {
+        -- github example, minus the `colorscript -e square` header panel
         sections = {
           { section = "header" },
           { section = "keys", gap = 1, padding = 1 },
@@ -93,25 +94,31 @@ return {
             desc = "Browse Repo",
             padding = 1,
             key = "b",
-            action = function() Snacks.gitbrowse() end,
+            action = function()
+              Snacks.gitbrowse()
+            end,
           },
           function()
             local in_git = Snacks.git.get_root() ~= nil
             local cmds = {
               {
-                title = "GitHub Status",
-                cmd = "gh status",
-                action = function() vim.ui.open("https://github.com/notifications") end,
+                title = "Notifications",
+                cmd = "gh notify -s -a -n5",
+                action = function()
+                  vim.ui.open("https://github.com/notifications")
+                end,
                 key = "n",
                 icon = " ",
-                height = 10,
+                height = 5,
                 enabled = true,
               },
               {
                 title = "Open Issues",
                 cmd = "gh issue list -L 3",
                 key = "i",
-                action = function() vim.fn.jobstart("gh issue list --web", { detach = true }) end,
+                action = function()
+                  vim.fn.jobstart("gh issue list --web", { detach = true })
+                end,
                 icon = " ",
                 height = 7,
               },
@@ -120,7 +127,9 @@ return {
                 title = "Open PRs",
                 cmd = "gh pr list -L 3",
                 key = "P",
-                action = function() vim.fn.jobstart("gh pr list --web", { detach = true }) end,
+                action = function()
+                  vim.fn.jobstart("gh pr list --web", { detach = true })
+                end,
                 height = 7,
               },
               {
@@ -151,19 +160,37 @@ return {
         end,
       },
     },
-    -- stylua: ignore
+    -- TODO: export keys to keys.config.
     keys = {
-      { "`", function() Snacks.terminal.toggle(nil, { win = { position = "float", border = "rounded" } }) end, desc = "Toggle Terminal" },
-      { "`", function() Snacks.terminal.toggle(nil, { win = { position = "float", border = "rounded" } }) end, mode = "t", desc = "Toggle Terminal" },
-      { "<leader><space>", function() Snacks.picker.smart() end, desc = "Smart Open" },
-      { "<leader>dd", function() Snacks.picker.grep({search = "^(?!\\s*--).*\\b(bt|dd)\\(", args = {"-P"}, live = false, ft = "lua"}) end, desc = "Debug Searcher" },
-      { "<leader>t", function() 
-        local file = vim.uv.fs_stat("TODO.md") and "TODO.md" or "~/dot/TODO.md"
-        Snacks.scratch({ icon = " ", name = "Todo", ft = "markdown", file = file })
-      end, desc = "Todo List" },
-      { "<leader>T", function() 
-        Snacks.scratch({ icon = " ", name = "Todo", ft = "markdown", file = "~/dot/TODO.md" })
-      end, desc = "Todo List" },
+      {
+        "<leader><space>",
+        function()
+          Snacks.picker.smart()
+        end,
+        desc = "Smart Open",
+      },
+      {
+        "<leader>dd",
+        function()
+          Snacks.picker.grep({ search = "^(?!\\s*--).*\\b(bt|dd)\\(", args = { "-P" }, live = false, ft = "lua" })
+        end,
+        desc = "Debug Searcher",
+      },
+      {
+        "<leader>t",
+        function()
+          local file = vim.uv.fs_stat("TODO.md") and "TODO.md" or "~/dot/TODO.md"
+          Snacks.scratch({ icon = " ", name = "Todo", ft = "markdown", file = file })
+        end,
+        desc = "Todo List",
+      },
+      {
+        "<leader>T",
+        function()
+          Snacks.scratch({ icon = " ", name = "Todo", ft = "markdown", file = "~/dot/TODO.md" })
+        end,
+        desc = "Todo List",
+      },
       {
         "<leader>dpd",
         desc = "Debug profiler",
@@ -179,14 +206,4 @@ return {
       },
     },
   },
-  -- { "folke/todo-comments.nvim", enabled = false },
-  -- { "nvim-mini/mini.hipatterns", enabled = false },
-  -- {
-  --   "folke/snacks.nvim",
-  --   opts = {
-  --     scroll = { enabled = false },
-  --     indent = { enabled = false },
-  --     statuscolumn = { enabled = false },
-  --   },
-  -- }, -- disable scroll for testing
 }

@@ -1,29 +1,31 @@
 return {
-  -- { "nvim-telescope/telescope.nvim", cmd = "Telescope" },
-  -- { "ibhagwan/fzf-lua", cmd = "FzfLua" },
   {
     "folke/sidekick.nvim",
     opts = {
-      debug = true,
+      debug = false,
+      nes = {
+        diff = {
+          show = "cursor",
+        },
+      },
       cli = {
         -- picker = "fzf-lua",
-        -- picker = "snacks",
+        picker = "snacks",
         mux = {
-          -- backend = "zellij",
+          backend = "zellij",
           enabled = true,
           create = "terminal",
         },
-        -- win = { layout = "float" },
+        win = { layout = "float" },
         tools = {
           debug = {
-            -- print env and read -p "any key to continue"
             cmd = { "bash", "-c", "env | sort | bat -l env" },
           },
         },
       },
     },
   },
-  -- { "zbirenbaum/copilot.lua" },
+  { "zbirenbaum/copilot.lua" },
   {
     "olimorris/codecompanion.nvim",
     enabled = false,
@@ -40,6 +42,7 @@ return {
     },
   },
   {
+
     "milanglacier/minuet-ai.nvim",
     enabled = false,
     event = "BufReadPre",
