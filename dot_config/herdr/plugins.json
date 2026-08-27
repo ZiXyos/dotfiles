@@ -5,70 +5,39 @@
     "version": "0.36.0",
     "min_herdr_version": "0.7.5",
     "description": "Review agent-written diffs beside the chat and add line comments to the agent input.",
-    "manifest_path": "/Users/killian/.config/herdr/plugins/github/persiyanov.reviewr-e87b654a74f8/herdr-plugin.toml",
-    "plugin_root": "/Users/killian/.config/herdr/plugins/github/persiyanov.reviewr-e87b654a74f8",
+    "manifest_path": "$CONFIG/herdr/plugins/github/persiyanov.reviewr-e87b654a74f8/herdr-plugin.toml",
+    "plugin_root": "$CONFIG/herdr/plugins/github/persiyanov.reviewr-e87b654a74f8",
     "enabled": true,
-    "platforms": [
-      "macos",
-      "linux"
-    ],
+    "platforms": ["macos", "linux"],
     "build": [
       {
-        "command": [
-          "bash",
-          "herdr/install.sh"
-        ]
+        "command": ["bash", "herdr/install.sh"]
       }
     ],
     "actions": [
       {
         "id": "close",
         "title": "reviewr: close pane",
-        "contexts": [
-          "pane",
-          "workspace"
-        ],
-        "command": [
-          "bash",
-          "herdr/pane.sh",
-          "close"
-        ]
+        "contexts": ["pane", "workspace"],
+        "command": ["bash", "herdr/pane.sh", "close"]
       },
       {
         "id": "open",
         "title": "reviewr: open pane",
-        "contexts": [
-          "pane",
-          "workspace"
-        ],
-        "command": [
-          "bash",
-          "herdr/pane.sh",
-          "open"
-        ]
+        "contexts": ["pane", "workspace"],
+        "command": ["bash", "herdr/pane.sh", "open"]
       },
       {
         "id": "toggle",
         "title": "reviewr: toggle pane",
-        "contexts": [
-          "pane",
-          "workspace"
-        ],
-        "command": [
-          "bash",
-          "herdr/pane.sh",
-          "toggle"
-        ]
+        "contexts": ["pane", "workspace"],
+        "command": ["bash", "herdr/pane.sh", "toggle"]
       }
     ],
     "events": [
       {
         "on": "worktree.created",
-        "command": [
-          "bash",
-          "herdr/pane.sh",
-          "auto-open"
-        ]
+        "command": ["bash", "herdr/pane.sh", "auto-open"]
       }
     ],
     "panes": [
@@ -76,11 +45,7 @@
         "id": "pane",
         "title": "reviewr",
         "placement": "split",
-        "command": [
-          "sh",
-          "-c",
-          "exec \"$HERDR_PLUGIN_ROOT/bin/herdr-reviewr\""
-        ]
+        "command": ["sh", "-c", "exec \"$HERDR_PLUGIN_ROOT/bin/herdr-reviewr\""]
       }
     ],
     "source": {
@@ -88,7 +53,7 @@
       "owner": "persiyanov",
       "repo": "herdr-reviewr",
       "resolved_commit": "d172ea257ea39bc0eddc9608df1c405744c19e56",
-      "managed_path": "/Users/killian/.config/herdr/plugins/github/persiyanov.reviewr-e87b654a74f8",
+      "managed_path": "$CONFIG/herdr/plugins/github/persiyanov.reviewr-e87b654a74f8",
       "installed_unix_ms": 1787737952291
     }
   }
