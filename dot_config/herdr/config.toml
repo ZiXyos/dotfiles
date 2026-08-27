@@ -17,4 +17,4 @@ previous_workspace = "prefix+("
 next_workspace = "prefix+)"
 
 [experimental]
-kitty_graphucs = true
+kitty_graphics = true
