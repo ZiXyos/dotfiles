@@ -1,0 +1,20 @@
+[ui]
+agent_panel_sort = "spaces"
+
+[keys]
+settings = "prefix+shift+s"
+
+workspace_picker = ["prefix+s", "prefix+w"]
+
+reload_config = "prefix+r"
+
+new_tab = "prefix+n"
+previous_tab = "prefix+["
+next_tab = "prefix+]"
+
+new_workspace = "prefix+shift+n"
+previous_workspace = "prefix+("
+next_workspace = "prefix+)"
+
+[experimental]
+kitty_graphucs = true
