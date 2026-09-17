@@ -1,5 +1,12 @@
+onboarding = false
 [ui]
 agent_panel_sort = "spaces"
+
+[ui.toast]
+delivery = "herdr"
+
+[ui.toast.herdr]
+position = "top-right"
 
 [keys]
 settings = "prefix+shift+s"
@@ -16,5 +23,16 @@ new_workspace = "prefix+shift+n"
 previous_workspace = "prefix+("
 next_workspace = "prefix+)"
 
+toggle_sidebar = "prefix+b"
+
+
+[[keys.command]]
+key = "prefix+shift+r"
+type = "plugin_action"
+command = "persiyanov.reviewr.toggle"
+
+
+
 [experimental]
 kitty_graphics = true
+pane_history = true

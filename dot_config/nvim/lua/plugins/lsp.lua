@@ -20,6 +20,20 @@ return {
           root_makers = { ".qmlls.ini" },
         },
         jsonls = { filetypes = { "json", "jsonc", "json5" } },
+        rust_analyzer = {
+          settings = {
+            ["rust-analyzer"] = {
+              -- napi-derive's `#[napi]` proc-macro prints during expansion, which
+              -- rust-analyzer's proc-macro server rejects ("napi macro expand failed").
+              -- Skipping expansion keeps the original tokens so hover/types work.
+              procMacro = {
+                ignored = {
+                  ["napi-derive"] = { "napi" },
+                },
+              },
+            },
+          },
+        },
         lua_ls = {
           settings = {
             Lua = {

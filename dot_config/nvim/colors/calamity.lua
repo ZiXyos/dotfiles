@@ -84,8 +84,9 @@ hi("PmenuSel",        { fg = c.fg,      bg = c.bg_visual, bold = true })
 hi("PmenuSbar",       {                 bg = c.bg_dark })
 hi("PmenuThumb",      {                 bg = c.comment })
 hi("MatchParen",      { fg = c.cyan,    bg = c.bg_hl, bold = true })
-hi("NonText",         { fg = c.bg_hl })
-hi("SpecialKey",      { fg = c.bg_hl })
+-- Plugins also use NonText/SpecialKey for secondary text, not just whitespace.
+hi("NonText",         { fg = c.fg_dim })
+hi("SpecialKey",      { fg = c.fg_dim })
 hi("Whitespace",      { fg = c.bg_hl })
 hi("Title",           { fg = c.cyan, bold = true })
 hi("Directory",       { fg = c.blue })
@@ -95,6 +96,11 @@ hi("MoreMsg",         { fg = c.green })
 hi("ModeMsg",         { fg = c.yellow })
 hi("WarningMsg",      { fg = c.yellow })
 hi("ErrorMsg",        { fg = c.red })
+
+-- Snacks picker: keep paths readable without competing with filenames.
+hi("SnacksPickerDir",         { fg = c.fg_dim })
+hi("SnacksPickerPathHidden",  { fg = c.fg_dim })
+hi("SnacksPickerPathIgnored", { fg = c.fg_dim })
 
 -- Diagnostics
 hi("DiagnosticError",            { fg = c.red })

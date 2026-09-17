@@ -1,5 +1,19 @@
 --@module 'lazy'
 
+-- Optional dashboard queries should report failures inline, not as Job Error popups.
+-- Use sh directly so interactive shell startup hooks don't emit terminal queries.
+local function dashboard_query(cmd)
+  return {
+    "/bin/sh",
+    "-c",
+    'output=$("$@" 2>&1); status=$?; '
+      .. 'if [ "$status" -eq 0 ]; then printf "%s\\n" "$output"; '
+      .. 'else printf "Warning: %s\\n" "$output"; fi',
+    "dashboard-query",
+    unpack(cmd),
+  }
+end
+
 return {
   {
     "snacks.nvim",
@@ -33,9 +47,11 @@ return {
         sources = {
           files = {
             hidden = true,
+            ignored = false,
           },
           grep = {
             hidden = true,
+            ignored = false,
           },
           select = {
             kinds = {
@@ -49,6 +65,7 @@ return {
           },
           explorer = {
             hidden = true,
+            ignored = false,
             layout = {
               preset = "sidebar",
               preview = { main = true, enabled = false },
@@ -103,7 +120,7 @@ return {
             local cmds = {
               {
                 title = "Notifications",
-                cmd = "gh notify -s -a -n5",
+                cmd = dashboard_query({ "gh", "notify", "-s", "-a", "-n5" }),
                 action = function()
                   vim.ui.open("https://github.com/notifications")
                 end,
@@ -114,7 +131,7 @@ return {
               },
               {
                 title = "Open Issues",
-                cmd = "gh issue list -L 3",
+                cmd = dashboard_query({ "gh", "issue", "list", "-L", "3" }),
                 key = "i",
                 action = function()
                   vim.fn.jobstart("gh issue list --web", { detach = true })
@@ -125,7 +142,7 @@ return {
               {
                 icon = " ",
                 title = "Open PRs",
-                cmd = "gh pr list -L 3",
+                cmd = dashboard_query({ "gh", "pr", "list", "-L", "3" }),
                 key = "P",
                 action = function()
                   vim.fn.jobstart("gh pr list --web", { detach = true })

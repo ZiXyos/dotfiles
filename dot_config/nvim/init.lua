@@ -2,10 +2,8 @@ if vim.loader then
   vim.loader.enable()
 end
 
-_G.dd = function(...)
-  require("util.debug").dump(...)
-end
-vim.print = _G.dd
+-- Keep the debug shorthand without replacing Neovim's built-in printer.
+_G.dd = vim.print
 
 require("config.options")
 require("config.lazy")
