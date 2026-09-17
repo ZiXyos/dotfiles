@@ -1,0 +1,41 @@
+#!/bin/sh
+# Install the Calamity color scheme into every JetBrains IDE found on this
+# machine (current and future versions). Canonical source lives in
+# .chezmoitemplates/jetbrains-Calamity.icls so it is stored only once.
+#
+# This script re-runs automatically whenever the theme changes, via the hash
+# below (chezmoi run_onchange_ semantics):
+# Calamity.icls sha256: {{ include ".chezmoitemplates/jetbrains-Calamity.icls" | sha256sum }}
+set -eu
+
+THEME="{{ .chezmoi.sourceDir }}/.chezmoitemplates/jetbrains-Calamity.icls"
+[ -f "$THEME" ] || { echo "canonical theme not found: $THEME" >&2; exit 0; }
+
+installed=0
+
+# Install the theme into every JetBrains IDE dir under one base dir. Passed as a
+# single argument so paths containing spaces (macOS "Application Support") work.
+install_into() {
+	base="$1"
+	[ -d "$base" ] || return 0
+	for ide in "$base"/*/; do
+		[ -d "$ide" ] || continue
+		case "$(basename "$ide")" in
+		IntelliJIdea*|WebStorm*|GoLand*|RustRover*|DataGrip*|PyCharm*|CLion*|PhpStorm*|Rider*|RubyMine*|AppCode*|Aqua*|Writerside*)
+			mkdir -p "${ide}colors"
+			cp "$THEME" "${ide}colors/Calamity.icls"
+			echo "Installed Calamity theme -> ${ide}colors/"
+			installed=$((installed + 1))
+			;;
+		esac
+	done
+}
+
+# JetBrains config base dirs differ by OS:
+#   macOS -> ~/Library/Application Support/JetBrains
+#   Linux -> ~/.config/JetBrains
+install_into "$HOME/Library/Application Support/JetBrains"
+install_into "$HOME/.config/JetBrains"
+
+[ "$installed" -eq 0 ] && echo "No JetBrains IDEs found; nothing to do."
+exit 0
